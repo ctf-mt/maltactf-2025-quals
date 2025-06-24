@@ -1,0 +1,6 @@
+name: Totally Normal Hash
+author: quasar
+public: true
+flag: maltactf{i_really_hate_integer_precision._0f80631e53078573}
+description: |-
+  Working on a zk proof system for Malta dev stuff. Unfortunately zk proofs were too expensive so we just call circom now.

@@ -1,0 +1,6 @@
+zig-out/
+.zig-cache/
+test
+test.sh
+log.txt
+testing/

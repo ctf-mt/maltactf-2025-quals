@@ -1,0 +1,14 @@
+apiVersion: kctf.dev/v1
+kind: Challenge
+metadata:
+  name: totally-normal-hash
+spec:
+  deployed: true
+  powDifficultySeconds: 0
+  network:
+    public: true
+  healthcheck:
+    # TIP: disable the healthcheck during development
+    enabled: true
+    image: eu.gcr.io/friendly-maltese-citizens/totally-normal-hash-healthcheck:7bed23cb418f8593de07ab9103e5e7042af1478d6cf1c7f0fce4400b4ded5694
+  image: eu.gcr.io/friendly-maltese-citizens/totally-normal-hash-challenge:0b88a43b6d2ba825d568e37b320753249575fe94067eb6f21d11767ca131c624

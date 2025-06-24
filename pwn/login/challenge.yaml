@@ -1,0 +1,14 @@
+apiVersion: kctf.dev/v1
+kind: Challenge
+metadata:
+  name: login
+spec:
+  deployed: true
+  powDifficultySeconds: 0
+  network:
+    public: true
+  healthcheck:
+    # TIP: disable the healthcheck during development
+    enabled: true
+    image: eu.gcr.io/friendly-maltese-citizens/login-healthcheck:25b9549ab99dadb7ccc44510f11be038f8c3656f8703c91d1a110098dc224656
+  image: eu.gcr.io/friendly-maltese-citizens/login-challenge:073e0cd64d95c0e3944aaa63c7e78c0522b96c1fbb94d885eb6b9cda41835bcb

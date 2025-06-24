@@ -1,0 +1,35 @@
+services:
+  web:
+    build: 
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "1337:1337"
+    environment:
+      - NODE_ENV=production
+      - FLAG=maltactf{th1s_w4s_4s_exh4ust1V3_aS_th3_C0nnection_P00l}
+      - ANALYTICS_URL=${ANALYTICS_URL:-http://analytics:3000}
+      - DOMAIN=${DOMAIN:-web:1337}
+    restart: unless-stopped
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - seccomp=unconfined
+    networks:
+      - ctf-network
+    depends_on:
+      - analytics
+
+  analytics:
+    build: 
+      context: ./analytics
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    networks:
+      - ctf-network
+
+networks:
+  ctf-network:
+    driver: bridge

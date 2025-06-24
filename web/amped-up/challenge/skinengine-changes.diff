@@ -1,0 +1,30 @@
+diff --git a/build/skin/SkinEngine_WAL.js b/../../../challenge/dist/skin/SkinEngine_WAL.js
+index f562a289..b6963101 100644
+--- a/build/skin/SkinEngine_WAL.js
++++ b/../../../challenge/dist/skin/SkinEngine_WAL.js
+@@ -6144,7 +6144,7 @@ var MakiFile = class {
+ var MakiFile_default = MakiFile;
+ 
+ // build/maki/objectData/stdPatched.js
+-import std from "./std.json";
++import std from "../maki/objectData/std.json" with { type: "json" };
+ var NAME_TO_DEF = {};
+ Object.values(std).forEach((value) => {
+   NAME_TO_DEF[value.name] = value;
+@@ -6163,11 +6163,11 @@ getMethod("Wac", "onNotify").result = "int";
+ var stdPatched_default = std;
+ 
+ // build/maki/objects.js
+-import pldir from "./objectData/pldir.json";
+-import config from "./objectData/config.json";
+-import winampconfig from "./objectData/winampconfig.json";
+-import application from "./objectData/application.json";
+-import fileio from "./objectData/fileio.json";
++import pldir from "../maki/objectData/pldir.json" with { type: "json" };
++import config from "../maki/objectData/config.json" with { type: "json" };
++import winampconfig from "../maki/objectData/winampconfig.json" with { type: "json" };
++import application from "../maki/objectData/application.json" with { type: "json" };
++import fileio from "../maki/objectData/fileio.json" with { type: "json" };
+ var objects = {
+   ...stdPatched_default,
+   ...pldir,

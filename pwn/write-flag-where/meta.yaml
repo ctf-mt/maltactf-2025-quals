@@ -1,0 +1,8 @@
+name: Write Flag Where
+author: toasterpwn, unvariant
+public: true
+attachments:
+  - wfw.tar.gz
+flag: maltactf{n0_k4slr_l34k_n0_pr0blem!}
+description: |-
+  I hear toasterpwn added a new syscall to the linux kernel, just for you to get the flag. The creds are `ctf:ctf`. Good luck without a leak!

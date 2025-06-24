@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+    - 1337:1337
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5

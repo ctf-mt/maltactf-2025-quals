@@ -1,0 +1,6 @@
+name: grammar nazi
+author: Neobeo
+public: true
+flag: maltactf{Ferm4ts_littl3_polyn0mial_tr1ck}
+description: |-
+  Just another standard RSA implementation.

@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: hotdog_classifier
+    ports:
+      - "1337:1337"
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    environment:
+      - FLASK_ENV=production
+      - PYTHONPATH=/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

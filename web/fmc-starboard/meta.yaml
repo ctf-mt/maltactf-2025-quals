@@ -1,0 +1,7 @@
+name: FMC Starboard
+author: Trixter
+flag: maltactf{and_many_more_bangers_to_be_seen}
+public: true
+description: |-
+  Ever wanted to get a glimpse into what happens in the FMC Discord server?
+instancer: true

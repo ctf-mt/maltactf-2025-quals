@@ -1,0 +1,17 @@
+apiVersion: kctf.dev/v1
+kind: Challenge
+metadata:
+  name: fancy-text-generator
+spec:
+  deployed: true
+  powDifficultySeconds: 0
+  network:
+    public: true
+    ports:
+      - protocol: "HTTPS"
+        targetPort: 1337
+  healthcheck:
+    # TIP: disable the healthcheck during development
+    enabled: true
+    image: eu.gcr.io/friendly-maltese-citizens/fancy-text-generator-healthcheck:d1c251cb7b403f68c6059d6ab510ae4f2903c29d24b9e6aa2b9ffb51d42ac7cd
+  image: eu.gcr.io/friendly-maltese-citizens/fancy-text-generator-challenge:a012a93ca8704b78acf2fee36fe4c4076166949d99c2d1811e5244cdac940e3f

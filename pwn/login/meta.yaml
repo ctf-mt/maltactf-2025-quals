@@ -1,0 +1,6 @@
+name: login
+author: toasterpwn
+public: true
+flag: maltactf{always_read_the_manpages!}
+description: |-
+  Can you find a way to login as admin?

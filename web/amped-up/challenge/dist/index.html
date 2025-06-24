@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amped Up</title>
+  <link rel="stylesheet" href="css/webamp.css">
+  <meta http-equiv="Content-Security-Policy" content="base-uri 'self'; script-src 'sha256-UN95bTWHfsxVYpFEtsx0w8zaBGNrMSspYCaAk5zISKI=' 'sha256-SJ7ZW9X2oZFrCMBKRyQXFfCUVkZGiuZAGYDLJsZm4t4=' 'sha256-DNTa+Xmye+boJq4xTocaQFxyrzgsUGtTlsENfwx7mH4=';">
+  <style id="bitmap-css"></style>
+  <style id="truetypefont-css"></style>
+  <style>
+    #drag-zone {
+      box-sizing: border-box;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 123, 255, 0.2);
+      border: 3px dashed #007bff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: -1;
+      font-size: 24px;
+      color: #007bff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="drag-zone">
+    Drop your WebAmp WAL skin file here, or use the `?skin` query parameter to load a skin.
+  </div>
+  <div id="web-amp"></div>
+  <script type="module" src="./WebampModern.js" integrity="sha256-DNTa+Xmye+boJq4xTocaQFxyrzgsUGtTlsENfwx7mH4="></script>
+  <script type="module" src="./skin/SkinEngine_WAL.js" integrity="sha256-SJ7ZW9X2oZFrCMBKRyQXFfCUVkZGiuZAGYDLJsZm4t4="></script>
+  <script type="module" src="./index.js" integrity="sha256-UN95bTWHfsxVYpFEtsx0w8zaBGNrMSspYCaAk5zISKI="></script>
+</body>
+
+</html>

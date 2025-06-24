@@ -1,0 +1,14 @@
+apiVersion: kctf.dev/v1
+kind: Challenge
+metadata:
+  name: secure-dwarf
+spec:
+  deployed: true
+  powDifficultySeconds: 0
+  network:
+    public: true
+  healthcheck:
+    # TIP: disable the healthcheck during development
+    enabled: true
+    image: eu.gcr.io/friendly-maltese-citizens/secure-dwarf-healthcheck:b751e6935ef3d438f191dcbf0ab0a6f4a85858ebb799842238f122b5d107985d
+  image: eu.gcr.io/friendly-maltese-citizens/secure-dwarf-challenge:626fc6b8f60c7e41d275ed9a438cbb062c4abcbabd254823a726470bb08e6506

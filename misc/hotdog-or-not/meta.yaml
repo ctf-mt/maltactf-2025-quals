@@ -1,0 +1,9 @@
+name: Hotdog or Not
+author: mirkhoff
+public: true
+flag: maltactf{c4rl1n1_w46n3r_47t4ck_1s_k1nd4_c00l_r1gh7_8cw78c2h2}
+description: |-
+  I found this weird web service on shodan, hosted on an embedded device somewhere in Malta.
+  Wonder if there is more to this than just recognizing hot dogs on images... 
+  Sadly I only have this one image of hot dog, can I use it to make model behave differently?
+instancer: true

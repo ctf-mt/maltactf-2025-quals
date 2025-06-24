@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#0a0a1a] text-white">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HotdogOrNot-Inator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    
+    html, body {
+      height: 100%;
+      font-family: 'JetBrains Mono', monospace;
+      scroll-behavior: smooth;
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2a 50%, #0a1a2a 100%);
+    }
+    
+    .watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      color: rgba(255, 255, 255, 0.02);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+    
+    .typing-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .typing-dot {
+      width: 4px;
+      height: 4px;
+      background-color: #00ff88;
+      border-radius: 50%;
+      animation: typing 1.4s infinite;
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    }
+    
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    
+    @keyframes typing {
+      0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.4;
+      }
+      30% {
+        transform: translateY(-8px);
+        opacity: 1;
+      }
+    }
+    
+    .message-enter {
+      animation: messageSlideIn 0.3s ease-out;
+      transform-origin: bottom left;
+    }
+    
+    .message-enter-user {
+      animation: messageSlideInUser 0.3s ease-out;
+      transform-origin: bottom right;
+    }
+    
+    @keyframes messageSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px) translateX(-10px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) translateX(0) scale(1);
+      }
+    }
+    
+    @keyframes messageSlideInUser {
+      from {
+        opacity: 0;
+        transform: translateY(20px) translateX(10px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) translateX(0) scale(1);
+      }
+    }
+    
+    .thinking-pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.6;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+    
+    .gradient-border {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.3), rgba(0, 255, 136, 0.1));
+      border: 1px solid rgba(0, 255, 136, 0.3);
+    }
+    
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    .file-input-wrapper input[type=file] {
+      position: absolute;
+      left: -9999px;
+    }
+    
+    .file-input-label {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px dashed rgba(0, 255, 136, 0.3);
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      width: 100%;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+    }
+    
+    .file-input-label:hover {
+      border-color: #00ff88;
+      background: rgba(0, 255, 136, 0.1);
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+    }
+    
+    .file-input-label.has-file {
+      border-color: #00ff88;
+      background: rgba(0, 255, 136, 0.15);
+      border-style: solid;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+    }
+    
+    .upload-icon {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+    
+    .send-button {
+      background: linear-gradient(135deg, #00ff88, #00cc66);
+      transition: all 0.2s ease;
+      transform: scale(1);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 1px solid rgba(0, 255, 136, 0.5);
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+    }
+    
+    .send-button:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 25px rgba(0, 255, 136, 0.4);
+    }
+    
+    .send-button:active {
+      transform: scale(0.98);
+    }
+    
+    .send-button:disabled {
+      opacity: 0.5;
+      transform: scale(1);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    
+    .chat-container {
+      scrollbar-width: thin;
+      scrollbar-color: #00ff88 transparent;
+    }
+    
+    .chat-container::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .chat-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .chat-container::-webkit-scrollbar-thumb {
+      background: #00ff88;
+      border-radius: 3px;
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    }
+    
+    .chat-container::-webkit-scrollbar-thumb:hover {
+      background: #00cc66;
+    }
+    
+    .header-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #00ff88;
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+      position: relative;
+    }
+    
+    .header-title::before {
+      content: '> ';
+      color: #ff6b6b;
+      animation: blink 1s infinite;
+    }
+    
+    .header-title::after {
+      content: ' <';
+      color: #ff6b6b;
+    }
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    
+    .cyber-border {
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      box-shadow: inset 0 0 20px rgba(0, 255, 136, 0.1);
+      backdrop-filter: blur(10px);
+    }
+    
+    .user-message {
+      background: linear-gradient(135deg, #ff6b6b, #ff5252);
+      border: 1px solid rgba(255, 107, 107, 0.5);
+      box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+    }
+    
+    .assistant-message {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+      backdrop-filter: blur(10px);
+    }
+    
+    .alert-box {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .neon-glow {
+      text-shadow: 0 0 10px currentColor;
+    }
+    
+    .scan-line {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .scan-line::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+      animation: scan 3s linear infinite;
+    }
+    
+    @keyframes scan {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    
+    .glitch {
+      position: relative;
+    }
+    
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .glitch::before {
+      animation: glitch-1 0.5s infinite;
+      color: #ff00ff;
+      z-index: -1;
+    }
+    
+    .glitch::after {
+      animation: glitch-2 0.5s infinite;
+      color: #00ffff;
+      z-index: -2;
+    }
+    
+    @keyframes glitch-1 {
+      0%, 14%, 15%, 49%, 50%, 99%, 100% {
+        transform: translate(0);
+      }
+      15%, 49% {
+        transform: translate(-2px, 2px);
+      }
+    }
+    
+    @keyframes glitch-2 {
+      0%, 20%, 21%, 62%, 63%, 99%, 100% {
+        transform: translate(0);
+      }
+      21%, 62% {
+        transform: translate(2px, -2px);
+      }
+    }
+  </style>
+</head>
+<body class="flex flex-col h-full overflow-hidden relative">
+  <div class="watermark glitch" data-text="HOTDOG-OR-NOT NEURAL NET v3.0">HOTDOG-OR-NOT NEURAL NET v3.0</div>
+  
+  <!-- Header -->
+  <div class="flex items-center justify-center py-6 border-b cyber-border bg-black/50 z-20 scan-line">
+    <h1 class="header-title text-xl neon-glow">HotdogOrNot-Inator</h1>
+  </div>
+  
+  <!-- Alert -->
+  <div id="alert" class="alert-box fixed top-20 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-2xl opacity-0 transition-all duration-300 z-50"></div>
+  
+  <!-- Chat Container -->
+  <div class="flex flex-col items-center justify-between w-full h-full max-w-4xl mx-auto relative z-10">
+    <div id="chat" class="chat-container flex flex-col space-y-6 w-full flex-grow overflow-y-auto px-6 py-6"></div>
+    
+    <!-- Input Form -->
+    <div class="w-full px-6 pb-6">
+      <form id="chat-form" class="flex flex-col gap-4 p-6 rounded-lg cyber-border bg-black/60" enctype="multipart/form-data">
+        <div class="file-input-wrapper">
+          <input id="image-input" type="file" accept=".tiff,.tif,image/tiff" required />
+          <label for="image-input" class="file-input-label" id="file-label">
+            <svg class="upload-icon" viewBox="0 0 24 24">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+            </svg>
+            <span id="file-label-text" class="neon-glow">>>> UPLOAD TIFF FILE FOR ANALYSIS</span>
+          </label>
+        </div>
+        <div class="flex justify-end">
+          <button type="submit" class="send-button px-6 py-3 text-black rounded-lg shadow-lg font-medium" disabled>
+            <span id="button-text">EXECUTE</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('image-input');
+    const chat = document.getElementById('chat');
+    const alertBox = document.getElementById('alert');
+    const fileLabel = document.getElementById('file-label');
+    const fileLabelText = document.getElementById('file-label-text');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const buttonText = document.getElementById('button-text');
+
+    let isProcessing = false;
+
+    function showAlert(message, type = 'error') {
+      alertBox.innerText = message;
+      alertBox.className = `alert-box fixed top-20 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-2xl transition-all duration-300 z-50 ${
+        type === 'error' 
+          ? 'bg-red-500/90 text-white border border-red-400' 
+          : 'bg-green-500/90 text-white border border-green-400'
+      }`;
+      alertBox.classList.remove("opacity-0");
+      alertBox.classList.add("opacity-100");
+      setTimeout(() => {
+        alertBox.classList.remove("opacity-100");
+        alertBox.classList.add("opacity-0");
+      }, 4000);
+    }
+
+    function typeWriter(element, text, speed = 30) {
+      return new Promise((resolve) => {
+        let i = 0;
+        element.innerHTML = '';
+        
+        function type() {
+          if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+          } else {
+            resolve();
+          }
+        }
+        type();
+      });
+    }
+
+    function createThinkingMessage() {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'flex justify-start message-enter';
+      wrapper.id = 'thinking-message';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'max-w-xs px-6 py-4 rounded-lg assistant-message shadow-lg';
+
+      const thinkingContainer = document.createElement('div');
+      thinkingContainer.className = 'flex items-center gap-3 text-green-400';
+
+      const icon = document.createElement('div');
+      icon.className = 'thinking-pulse text-xl';
+      icon.innerHTML = '🤖';
+
+      const textSpan = document.createElement('span');
+      textSpan.className = 'text-sm font-mono font-semibold uppercase tracking-wide neon-glow';
+      textSpan.textContent = 'ANALYZING';
+
+      const typingIndicator = document.createElement('div');
+      typingIndicator.className = 'typing-indicator ml-2';
+      typingIndicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+
+      thinkingContainer.appendChild(icon);
+      thinkingContainer.appendChild(textSpan);
+      thinkingContainer.appendChild(typingIndicator);
+      bubble.appendChild(thinkingContainer);
+      wrapper.appendChild(bubble);
+
+      return wrapper;
+    }
+
+    function appendMessage(role, content, isImage = false, animate = true) {
+      const wrapper = document.createElement('div');
+      wrapper.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} ${animate ? (role === 'user' ? 'message-enter-user' : 'message-enter') : ''}`;
+
+      const bubble = document.createElement('div');
+      bubble.className = `max-w-lg px-6 py-4 rounded-lg shadow-lg ${
+        role === 'user'
+          ? 'user-message text-white'
+          : 'assistant-message text-green-400'
+      }`;
+
+      if (isImage) {
+        const uploadContainer = document.createElement('div');
+        uploadContainer.className = 'flex items-center gap-3';
+        
+        const cameraIcon = document.createElement('div');
+        cameraIcon.className = 'text-2xl';
+        cameraIcon.textContent = '📷';
+        
+        const uploadText = document.createElement('div');
+        uploadText.className = 'text-sm font-mono font-semibold uppercase tracking-wide neon-glow';
+        uploadText.textContent = 'IMAGE UPLOADED';
+        
+        uploadContainer.appendChild(cameraIcon);
+        uploadContainer.appendChild(uploadText);
+        bubble.appendChild(uploadContainer);
+      } else {
+        const textDiv = document.createElement('div');
+        textDiv.className = 'text-sm leading-relaxed font-mono';
+        if (role === 'assistant') {
+          textDiv.innerHTML = content;
+        } else {
+          textDiv.textContent = content;
+        }
+        bubble.appendChild(textDiv);
+      }
+
+      wrapper.appendChild(bubble);
+      chat.appendChild(wrapper);
+      chat.scrollTop = chat.scrollHeight;
+      
+      return bubble.querySelector('div');
+    }
+
+    // File input handling
+    input.addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        fileLabel.classList.add('has-file');
+        fileLabelText.textContent = `>>> LOADED: ${file.name.toUpperCase()}`;
+        submitButton.disabled = false;
+      } else {
+        fileLabel.classList.remove('has-file');
+        fileLabelText.textContent = '>>> UPLOAD TIFF FILE FOR ANALYSIS';
+        submitButton.disabled = true;
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      if (isProcessing) return;
+      
+      const file = input.files[0];
+      if (!file) {
+        showAlert(">>> ERROR: NO FILE SELECTED");
+        return;
+      }
+
+      // Validate file type
+      if (!file.name.toLowerCase().endsWith('.tiff') && !file.name.toLowerCase().endsWith('.tif')) {
+        showAlert(">>> ERROR: INVALID FILE FORMAT");
+        return;
+      }
+
+      isProcessing = true;
+      submitButton.disabled = true;
+      buttonText.textContent = 'PROCESSING...';
+
+      // Show user message with camera icon (don't display TIFF directly)
+      appendMessage('user', '', true);
+
+      // Show thinking message
+      const thinkingMessage = createThinkingMessage();
+      chat.appendChild(thinkingMessage);
+      chat.scrollTop = chat.scrollHeight;
+
+      const formData = new FormData();
+      formData.append('image', file);
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+        
+        // Remove thinking message
+        if (thinkingMessage.parentNode) {
+          thinkingMessage.remove();
+        }
+
+        if (data.reply) {
+          const messageElement = appendMessage('assistant', '');
+          await typeWriter(messageElement, data.reply, 30);
+        } else if (data.processed_image) {
+          // Display the processed/resized image from server
+          const messageElement = appendMessage('assistant', '');
+          
+          const imgContainer = document.createElement('div');
+          imgContainer.className = 'flex flex-col gap-3';
+          
+          const img = document.createElement('img');
+          img.src = 'data:image/png;base64,' + data.processed_image;
+          img.alt = "Processed Image";
+          img.className = "w-48 h-auto rounded-lg shadow-md border border-green-400/30";
+          
+          const caption = document.createElement('div');
+          caption.className = 'text-sm text-green-400/80 font-mono uppercase tracking-wide';
+          caption.textContent = '>>> PROCESSED: 224x224x3 TENSOR';
+          
+          imgContainer.appendChild(img);
+          imgContainer.appendChild(caption);
+          messageElement.appendChild(imgContainer);
+          
+          if (data.reply) {
+            const textDiv = document.createElement('div');
+            textDiv.className = 'mt-3 text-sm leading-relaxed font-mono';
+            messageElement.appendChild(textDiv);
+            await typeWriter(textDiv, data.reply, 30);
+          }
+        } else if (data.error) {
+          showAlert(">>> ERROR: " + data.error.toUpperCase());
+        } else {
+          showAlert(">>> ERROR: UNEXPECTED RESPONSE");
+        }
+      } catch (err) {
+        // Remove thinking message
+        if (thinkingMessage.parentNode) {
+          thinkingMessage.remove();
+        }
+        showAlert(">>> ERROR: CONNECTION FAILED");
+        console.error('Fetch error:', err);
+      }
+
+      // Reset form state
+      isProcessing = false;
+      submitButton.disabled = false;
+      buttonText.textContent = 'EXECUTE';
+      form.reset();
+      fileLabel.classList.remove('has-file');
+      fileLabelText.textContent = '>>> UPLOAD TIFF FILE FOR ANALYSIS';
+      submitButton.disabled = true;
+    });
+
+    // Initial state
+    submitButton.disabled = true;
+  </script>
+</body>
+</html>

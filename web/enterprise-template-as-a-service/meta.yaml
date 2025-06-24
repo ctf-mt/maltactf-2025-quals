@@ -1,0 +1,8 @@
+name: Enterprise Template as a Service
+author: Trixter
+flag: maltactf{why_is_there_java_in_my_c#_6e95af9cd14fdcb0e544afccc5108c85}
+public: true
+description: |-
+  Hear me out. What if we combine Apache and C#, and then create a service out of that? We're gonna be so enterprise!
+instancer: true
+instancer_id: etaas

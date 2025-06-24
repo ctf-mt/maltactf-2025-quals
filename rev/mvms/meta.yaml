@@ -1,0 +1,8 @@
+name: mvms
+author: es3n1n, Zerotistic
+flag: maltactf{c0mp1l1ng_th15_ch4ll3ng3_t00k_6_h0ur5_b3cau5e_1_am_l4zy_bruh}
+public: true
+attachments:
+  - mvms.tar.gz
+description: |-
+  nvms, but mvms. mvm

@@ -1,0 +1,17 @@
+apiVersion: kctf.dev/v1
+kind: Challenge
+metadata:
+  name: amped-up
+spec:
+  deployed: true
+  powDifficultySeconds: 0
+  network:
+    public: true
+    ports:
+      - protocol: "HTTPS"
+        targetPort: 1337
+  healthcheck:
+    # TIP: disable the healthcheck during development
+    enabled: true
+    image: eu.gcr.io/friendly-maltese-citizens/amped-up-healthcheck:1729450d7a874f4077f75477a430cf82970fe2065171f8bb742e38ae60472058
+  image: eu.gcr.io/friendly-maltese-citizens/amped-up-challenge:b774f8db02425ff2857f646f9bff72770c49aacaef7220d590f170baadf497f1

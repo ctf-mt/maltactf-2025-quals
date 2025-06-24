@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMC Starboard</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the FMC Starboard!</h1>
+
+    <form action="/" method="get">
+        <label for="order">Sort by:</label>
+        <select 
+            name="order" 
+            id="order"
+            onchange="this.form.submit()">
+            <option value="ASC" {% if order == 'ASC' %}selected{% endif %}>Ascending</option>
+            <option value="DESC" {% if order == 'DESC' %}selected{% endif %}>Descending</option>
+        </select>
+    </form>
+
+    <hr>
+
+    <ul>
+        {% for post in posts %}
+        <li>
+            {{ post.stars }} &#11088; - {{ post.post }}
+        </li>
+        {% else %}
+        <li>No posts found.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

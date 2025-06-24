@@ -1,0 +1,8 @@
+name: fancy text generator
+author: downgrade
+flag: maltactf{oops_my_dependency_is_buggy_05b19465ce19db4e28ddb00bb19f101e}
+public: true
+description: |-
+  i added dompurify AND a secure csp to my site, so everything should be perfectly safe!
+admin_bot: true
+http: true

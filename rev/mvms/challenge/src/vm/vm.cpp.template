@@ -1,0 +1,55 @@
+#include "vm/vm.hpp"
+#include "util/logs.hpp"
+#include "util/macros.hpp"
+
+#include <iostream>
+
+#define PC_FMT "{:#08x} "
+
+namespace vm {
+    namespace {
+        template <std::unsigned_integral Ty>
+        [[nodiscard]] constexpr Ty rol(Ty val, int shift) noexcept {
+            static_assert(std::is_unsigned_v<Ty>, "rol requires unsigned integral type");
+            constexpr auto mask = static_cast<Ty>(CHAR_BIT) * sizeof(Ty) - 1;
+            shift &= mask;
+            return (val << shift) | (val >> ((-shift) & mask));
+        }
+
+        template <std::unsigned_integral Ty>
+        [[nodiscard]] constexpr Ty ror(Ty val, int shift) noexcept {
+            static_assert(std::is_unsigned_v<Ty>, "ror requires unsigned integral type");
+            constexpr auto mask = static_cast<Ty>(CHAR_BIT) * sizeof(Ty) - 1;
+            shift &= mask;
+            return (val >> shift) | (val << ((-shift) & mask));
+        }
+    } // namespace
+
+    void VM::run() {
+        const auto& program = kProgram;
+        const std::size_t program_size = program.size();
+
+        /// Fetch‐decode‐execute loop
+        running_ = true;
+        while (pc_ < program_size && running_) {
+            const auto loc = pc_;
+            const auto [opcode] = consume<1, Opcode>();
+            execute(opcode, loc);
+        }
+    }
+
+    ALWAYS_INLINE void VM::execute(const Opcode opcode_value, const std::size_t opcode_loc) {
+        switch (opcode_value) {
+/* SWITCH CASES */
+        default: {
+#if defined(ENABLE_EXCEPTIONS)
+            throw std::out_of_range(error_message()("Unknown opcode: {:#x}", opcode_value));
+#else
+            std::abort();
+#endif
+        }
+        }
+    }
+} // namespace vm
+
+#undef PC_FMT

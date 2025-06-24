@@ -1,0 +1,10 @@
+name: check
+author: Friendly Maltese Citizens
+flag: maltactf{we_hope_to_see_you_in_valletta!}
+public: true
+min_points: 100
+max_points: 100
+description: |-
+  You can get support through [our Discord](https://discord.com/invite/skM2YU8jC4). Hope you enjoy our challenges :)
+
+  `maltactf{we_hope_to_see_you_in_valletta!}`

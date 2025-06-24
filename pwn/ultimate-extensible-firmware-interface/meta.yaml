@@ -1,0 +1,8 @@
+name: ultimate-extensible-firmware-interface
+author: unvariant
+public: true
+flag: maltactf{never_underestimate_the_power_of_the_scouts_code}
+attachments:
+    - dist.tar.gz
+description: |-
+    Did you know that Zig can also compile UEFI applications :P.

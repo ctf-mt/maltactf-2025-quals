@@ -1,0 +1,15 @@
+<head>
+    <title>Fancy Text Generator!</title>
+    <link href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace-theme-center-atom.min.css" rel="stylesheet">
+    <link href="/style.css" rel="stylesheet">
+    <script integrity="sha256-1ltlTOtatSNq5nY+DSYtbldahmQSfsXkeBYmBH5i9dQ=" src="/loader.js"></script>
+</head>
+<body>
+    <h1>Fancy text generator</h1>
+    <div id="contentBox"><%- text || "fancy text generator!" %></div>
+    </br>
+    <form action="/" method="GET">
+        <input name="text" placeholder="text to make fancy">
+	<input type="submit" value="submit">
+    </form>
+</body>

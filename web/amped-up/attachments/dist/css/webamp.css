@@ -1,0 +1,645 @@
+/* build/css/elements.css */
+textarea,
+group,
+text,
+input,
+select {
+  font-size: 10.5px;
+  user-select: none;
+}
+textarea:focus,
+input:focus,
+select:focus {
+  outline: none;
+}
+#ui-root select {
+  background-color: transparent;
+  color: var(--color-studio-list-text, var(--color-wasabi-list-text));
+}
+select option {
+  padding-left: 5px;
+  width: 300%;
+}
+select option[selected] {
+  font-weight: bold;
+}
+select::before {
+  padding-left: 5px;
+  content: var(--colheader, none);
+  display: block;
+  position: sticky;
+  top: var(--colheadertop, 0);
+  left: 0;
+  background-color: black;
+  color: silver;
+}
+.webamp--img {
+  background-image: var(--background-image);
+  background-position: top 0 left 0;
+}
+.webamp--img:active {
+  background-image: var(--down-background-image, var(--background-image));
+}
+.webamp--img:hover {
+  background-image: var(--hover-background-image, var(--background-image));
+}
+.webamp--img:hover:active {
+  background-image: var(--down-background-image, var(--background-image));
+}
+.webamp--img.active {
+  background-image: var(--active-background-image, var(--background-image));
+}
+button {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+slider {
+  overflow: hidden;
+  --thumb-left: 0px;
+  --thumb-top: 0px;
+  outline: none;
+}
+slider > div {
+  display: none;
+}
+slider::after {
+  content: "";
+  position: absolute;
+  left: var(--thumb-left);
+  top: var(--thumb-top);
+  width: var(--thumb-width);
+  height: var(--thumb-height);
+  background-image: var(--thumb-background-image);
+  pointer-events: none;
+}
+slider:hover:after {
+  background-image: var( --thumb-hover-background-image, var(--thumb-background-image) );
+}
+slider:active:after,
+.eq-surf slider:focus:after {
+  background-image: var( --thumb-down-background-image, var(--thumb-background-image) );
+}
+text {
+  overflow: hidden;
+  box-sizing: border-box;
+  text-align: center;
+  --valign: center;
+}
+text i {
+  pointer-events: none;
+  font-style: normal;
+}
+text wrap {
+  display: block;
+  background-image: inherit;
+  background-size: 0px;
+  position: relative;
+  height: 100%;
+  width: var(--full-width);
+  min-width: 100%;
+  font-family: monospace;
+  white-space: pre;
+}
+text wrap {
+  margin-left: 2px;
+}
+text wrap[font=TrueType] {
+  font-size: 10.5px;
+  line-height: 10px;
+  vertical-align: var(--valign, center);
+  text-align: var(--align, center);
+}
+text wrap[font=BitmapFont] {
+  display: flex;
+  white-space: nowrap;
+  align-items: var(--valign, center);
+  justify-content: var(--align, center);
+}
+text span {
+  user-select: none;
+  pointer-events: none;
+  background-image: inherit;
+  color: transparent;
+  width: var(--charwidth);
+  height: var(--charheight);
+  margin-right: var(--hspacing, 0);
+  background-position-x: var(--x);
+  background-position-y: var(--y);
+  overflow: hidden;
+  flex-shrink: 0;
+  background-repeat-x: no-repeat;
+}
+container {
+  position: absolute;
+}
+menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.popup hr {
+  margin-block-start: 3px;
+  margin-block-end: 3px;
+  border-bottom: none;
+}
+albumart,
+animatedlayer,
+button,
+colorthemeslist,
+componentbucket,
+eqvis,
+grid,
+group,
+layer,
+layout,
+progressgrid,
+slider,
+status,
+text,
+menu,
+frame2,
+vis,
+wasabiframe,
+wasabititlebar,
+windowholder {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+}
+group {
+  overflow: visible;
+}
+albumart {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center !important;
+}
+wasabititlebar {
+  text-align: center;
+}
+grid,
+progressgrid {
+  display: flex;
+}
+grid *,
+progressgrid * {
+  height: 100%;
+  background-image: var(--background-image);
+}
+grid middle {
+  flex-grow: 1;
+}
+componentbucket {
+  overflow: hidden;
+}
+componentbucket > wrapper {
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: auto;
+  transition: top 0.5s, left 0.5s;
+}
+componentbucket.vertical > wrapper {
+  flex-direction: column;
+  height: auto;
+  width: 100%;
+}
+componentbucket > wrapper > group {
+  position: relative;
+}
+group.x-fade > * {
+  transition: opacity var(--fade-in-speed, 0.5);
+}
+group.x-fade > .fading-out {
+  transition: opacity var(--fade-out-speed, 0.25);
+}
+vis > canvas {
+  display: block;
+}
+animatedlayer {
+  background-repeat: no-repeat;
+}
+.autowidthsource {
+  width: auto;
+}
+[inactivealpha="0"] {
+  opacity: 0;
+}
+[inactivealpha="128"] {
+  opacity: 0.5;
+}
+container:focus-within [activealpha="0"],
+container:active [activealpha="0"] {
+  opacity: 0;
+}
+container:focus-within [inactivealpha],
+container:active [inactivealpha] {
+  opacity: 1;
+}
+container:not(:active):not(container:focus-within) .webamp--img.inactivable {
+  background-image: var(--inactive-background-image, var(--background-image));
+}
+.resizing {
+  position: fixed;
+  border: 1px solid blue;
+  background-color: rgba(74, 74, 251, 0.205);
+  z-index: 1000;
+  box-sizing: border-box;
+  transition:
+    width 0.1s,
+    height 0.1s,
+    left 0.1s,
+    top 0.1s;
+}
+#wasabi\.menubar,
+#wasabi\.menubar\.pl,
+#wasabi\.menubar\.ml {
+  background: var(--color-wasabi-window-background);
+}
+menu {
+  overflow: visible;
+}
+.fake-popup {
+  width: 200px;
+  height: 300px;
+  background-color: yellow;
+  z-index: 1000;
+}
+menu > .popup {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  display: none;
+}
+.open > .popup {
+  display: block;
+}
+.popup-menu-container {
+  position: absolute;
+  margin: 0;
+  background: white;
+  padding: 0;
+  border: 1px solid #C9CCD2;
+  z-index: 100;
+  width: auto;
+  display: inline-block;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  font-size: 10.5px;
+}
+ul.popup-menu-container li {
+  display: flex;
+  padding: 2px 10px;
+  padding: 0;
+  white-space: nowrap;
+}
+ul.popup-menu-container li > span {
+  padding: 4px 0;
+}
+ul.popup-menu-container li:hover > span {
+  background: #316ac5;
+  color: white;
+}
+.popup-menu-container .checkmark {
+  min-width: 15px;
+  text-align: center;
+}
+.popup-menu-container .keystroke {
+  min-width: 20px;
+  flex-grow: 1;
+  text-align: right;
+  padding-left: 10px;
+}
+.popup-menu-container .chevron {
+  min-width: 15px;
+  text-align: center;
+  font-size: smaller;
+  line-height: 1;
+}
+.popup-menu-container > li > .popup-menu-container {
+  left: calc(100% - 3px);
+  display: none;
+}
+.popup-menu-container > li:hover > .popup-menu-container {
+  display: unset;
+}
+componentbucket[id="component list"] wrapper button {
+  width: 44px;
+  height: 34px;
+  margin: 0 1px;
+  position: unset;
+  display: inline-block;
+}
+
+/* build/css/list.css */
+.list {
+  color: var(--color-studio-list-text, var(--color-wasabi-list-text));
+  background-color: var(--color-wasabi-list-background, transparent);
+  background-image: var(--bitmap-studio-list-background, none);
+}
+.list > * {
+  user-select: none;
+}
+.list .selected {
+  background-color: var( --color-studio-list-item-selected, var(--color-wasabi-list-text-selected-background) );
+  color: var( --color-studio-list-item-selected-fg, var(--color-wasabi-list-text-selected) );
+}
+colorthemeslist {
+  border: 1px solid black;
+  border: none;
+}
+colorthemeslist > select {
+  border: none;
+  background-color: transparent;
+  color: inherit;
+}
+.pl.list {
+  color: aqua;
+  background: none;
+}
+.pl > .content-list {
+  margin-right: 15px;
+  max-height: 100%;
+  min-height: 100%;
+  overflow: auto;
+  background-color: var(--color-wasabi-list-background, transparent);
+  background-image: var(--bitmap-studio-list-background, none);
+}
+.pl > .content-list > div {
+  display: flex;
+}
+.pl > .content-list div > span:first-child {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.pl > .content-list div > span:last-child {
+  width: 30px;
+  float: right;
+  text-align: right;
+}
+.pl > .content-list::-webkit-scrollbar {
+  display: none;
+}
+.pl::before,
+.pl::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 15px;
+  height: 100%;
+  right: 0;
+  box-sizing: border-box;
+  background: var(--color-wasabi-window-background, transparent);
+  z-index: 0;
+  pointer-events: none;
+}
+.pl::after {
+  width: 8px;
+  right: 2px;
+  border-left: 1px solid var(--color-wasabi-border-sunken, rgba(192, 192, 192, 0.8));
+  border-right: 1px solid var(--color-wasabi-border-sunken, rgba(192, 192, 192, 0.8));
+  background: var(--color-wasabi-scrollbar-background-inverted, black);
+}
+.pl > slider {
+  z-index: 1;
+}
+.classic .pl::before,
+.classic .pl::after {
+  content: none;
+}
+.pl > slider::after {
+  box-sizing: border-box;
+  background-image: none;
+  border: 4px solid transparent;
+  border-image-source: var(--bitmap-studio-button);
+  border-image-slice: 4 fill;
+  vertical-align: middle;
+}
+.pl > slider:active:after {
+  border-image-source: var(--bitmap-studio-button-pressed);
+}
+.pl > slider::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--thumb-left) + 1px);
+  top: calc(var(--thumb-top) + 5px);
+  width: 6px;
+  height: 8px;
+  background-image: var(--bitmap-wasabi-scrollbar-vertical-grip);
+}
+.pl .current {
+  color: var( --color-pledit-text-current, var(--color-wasabi-list-text-current) );
+}
+
+/* build/css/button.css */
+button.wasabi {
+  background-image: none;
+  border: 4px solid transparent;
+  border-image-source: var(--bitmap-studio-button);
+  border-image-slice: 4 fill;
+  vertical-align: middle;
+}
+button.wasabi:active {
+  border-image-source: var(--bitmap-studio-button-pressed);
+}
+button.center_image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--background-image);
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* build/css/scrollbar.css */
+#web-amp *::-webkit-scrollbar {
+  width: var(--dim-vscrollbar-width);
+  background-image: var(--bitmap-wasabi-scrollbar-vertical-background);
+}
+#web-amp *::-webkit-scrollbar-button {
+  background-image: var(--bitmap-wasabi-scrollbar-vertical-left);
+}
+#web-amp *::-webkit-scrollbar-button:vertical {
+  height: var(--dim-vscrollbar-btn-height);
+}
+#web-amp *::-webkit-scrollbar-button:vertical:increment {
+  background-image: var(--bitmap-wasabi-scrollbar-vertical-right);
+}
+#web-amp *::-webkit-scrollbar-thumb {
+  background-image: var( --bitmap-wasabi-scrollbar-vertical-button, var(--bitmap-studio-scrollbar-vertical-button) );
+}
+#web-amp *::-webkit-scrollbar-thumb {
+  max-height: var( --dim-vscrollbar-thumb-height, var(--dim-vscrollbar-thumb-height2) );
+  min-height: var( --dim-vscrollbar-thumb-height, var(--dim-vscrollbar-thumb-height2) );
+  background-repeat: no-repeat;
+}
+#web-amp *::-webkit-scrollbar:horizontal {
+  height: var(--dim-hscrollbar-height);
+  background-image: var(--bitmap-wasabi-scrollbar-horizontal-background);
+}
+#web-amp *::-webkit-scrollbar-button:horizontal {
+  background-image: var(--bitmap-wasabi-scrollbar-horizontal-left);
+  width: var(--dim-hscrollbar-btn-width);
+}
+#web-amp *::-webkit-scrollbar-button:horizontal:increment {
+  background-image: var(--bitmap-wasabi-scrollbar-horizontal-right);
+}
+#web-amp *::-webkit-scrollbar-thumb:horizontal {
+  background-image: var(--bitmap-studio-scrollbar-horizontal-button);
+}
+#web-amp *::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* build/css/wmz.css */
+.passthrough,
+.passthrough * {
+  pointer-events: none !important;
+}
+subview,
+buttongroup,
+buttonelement {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  background-color: var(--background-color);
+}
+buttongroup {
+  background: none;
+}
+buttongroup > buttonelement {
+  width: inherit !important;
+  height: inherit !important;
+  background-position: top left;
+  cursor: pointer;
+}
+buttongroup.webamp--img:active,
+buttongroup.webamp--img:hover:active,
+buttongroup.webamp--img:hover {
+  background-image: var(--background-image);
+}
+subview.webamp--img::before,
+buttongroup.has-image::before {
+  content: "";
+  position: absolute;
+  background-image: var(--background-image);
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  z-index: 0;
+}
+buttongroup > buttonelement.down {
+  background-image: var(--down-background-image, var(--background-image));
+}
+buttongroup > buttonelement:hover {
+  background-image: var(--hover-background-image, var(--background-image));
+}
+buttongroup > buttonelement.down:hover {
+  background-image: var( --hover-down-background-image, var(--hover-background-image, var(--background-image)) );
+}
+buttongroup > buttonelement:active,
+buttongroup > buttonelement:hover:active {
+  background-image: var(--down-background-image, var(--background-image));
+}
+button.disabled,
+buttongroup > buttonelement.disabled {
+  pointer-events: none !important;
+  background-image: var( --disabled-background-image, var(--background-image) ) !important;
+}
+text.textz wrap {
+  width: auto;
+}
+subview > * {
+  background-color: var(--background-color);
+}
+slider.background-stretched::before {
+  content: "";
+  box-sizing: border-box;
+  border: 7px solid transparent;
+  border-top-width: var(--border-height-px);
+  border-bottom-width: var(--border-height-px);
+  border-left-width: var(--border-width-px);
+  border-right-width: var(--border-width-px);
+  border-image-source: var(--background-image);
+  border-image-slice: var(--border-height) var(--border-width) fill;
+  position: absolute;
+  inset: 0;
+}
+#web-amp container#main > #normal {
+  clip-path: url(#region-for-normal);
+}
+#web-amp container#main > #shade {
+  clip-path: url(#region-for-windowshade);
+}
+text span.bignum.minus {
+  background-position-x: 15px;
+  position: relative;
+}
+text span.bignum.minus::before,
+text span.bignum.minus::after {
+  content: "";
+  position: absolute;
+  background: inherit;
+  background-position: inherit;
+  left: 1px;
+  top: 5px;
+  width: 4px;
+  height: 3px;
+  background-position-x: -63px;
+  background-position-y: -13px;
+}
+text span.bignum.minus::after {
+  background-position-x: -49px;
+  background-position-y: -13px;
+  left: 5px;
+}
+
+/* build/css/kjofol.css */
+.K-Jofol button {
+  background-position-x: var(--left, 0);
+  background-position-y: var(--top, 0);
+}
+.K-Jofol canvas {
+  display: block;
+}
+
+/* build/css/sonique.css */
+.text-shaped {
+  color: silver;
+  font-size: 9px;
+  text-align: center;
+  color: aqua;
+  font-weight: bold;
+}
+.text-shaped::before {
+  content: "";
+  width: 50%;
+  height: 100%;
+  float: left;
+  shape-outside: var(--bottom-arc1);
+  shape-margin: 3px;
+}
+.text-shaped.right {
+  position: initial;
+}
+.text-shaped.right::before {
+  float: right;
+  shape-outside: var(--bottom-arc2);
+}
+button.circle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--icon-background-image);
+}
+
+/* build/css/webamp.css */

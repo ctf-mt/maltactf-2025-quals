@@ -1,0 +1,14 @@
+apiVersion: kctf.dev/v1
+kind: Challenge
+metadata:
+  name: uefi
+spec:
+  deployed: true
+  powDifficultySeconds: 0
+  network:
+    public: true
+  healthcheck:
+    # TIP: disable the healthcheck during development
+    enabled: true
+    image: eu.gcr.io/friendly-maltese-citizens/uefi-healthcheck:0b1fc3ba7b992136aae1fd78fc9bfc8195fa18c736c66a0e0afe652feb36c784
+  image: eu.gcr.io/friendly-maltese-citizens/uefi-challenge:6451e0b130171df5b59328e1fea557d07f0d10c4e98eb1bc66ae6de15b855448

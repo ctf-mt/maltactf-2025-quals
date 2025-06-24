@@ -1,0 +1,8 @@
+name: Amped Up!
+author: molenzwiebel
+flag: maltactf{webamp_1t_r3al1y_wh1p5_th3_java5cr1pt_pr0gramm3rs_a5s}
+public: true
+description: |-
+  Webamp allows me to experience how it felt to listen to music on Windows 95. Maybe you can share some of your favorite skins with me?
+admin_bot: true
+http: true

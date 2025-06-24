@@ -1,0 +1,44 @@
+/* from https://codepen.io/jbasoo/pen/ZYYMPZW */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+
+/* @link https://utopia.fyi/type/calculator?c=320,16,1.1487,1240,18,1.27224,5,1,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
+:root {
+	--step--1: clamp(0.8705rem, 0.8658rem + 0.0239vw, 0.8843rem);
+	--step-0: clamp(1rem, 0.9565rem + 0.2174vw, 1.125rem);
+	--step-1: clamp(1.1487rem, 1.0504rem + 0.4914vw, 1.4313rem);
+	--step-2: clamp(1.3195rem, 1.1451rem + 0.872vw, 1.8209rem);
+	--step-3: clamp(1.5157rem, 1.2371rem + 1.3929vw, 2.3166rem);
+	--step-4: clamp(1.7411rem, 1.3216rem + 2.0978vw, 2.9473rem);
+	--step-5: clamp(2rem, 1.3914rem + 3.043vw, 3.7497rem);
+}
+
+:root {
+	/*   color-scheme: light dark; */
+	background-color: light-dark(#fbfaf6, #20201f);
+}
+
+body {
+	padding: var(--step-4);
+	font-family: "EB Garamond", serif;
+	font-size: var(--step-0);
+	line-height: 1.4;
+	text-wrap: pretty;
+	color: light-dark(#575651, #eae8e0);
+}
+
+h1 {
+	font-size: var(--step-5);
+	font-weight: normal;
+	text-wrap: balance;
+	color: light-dark(#918e83, #75736a);
+
+	strong,
+	em {
+		color: light-dark(#575651, #eae8e0);
+	}
+}
+
+.prose {
+	max-width: 34em;
+}

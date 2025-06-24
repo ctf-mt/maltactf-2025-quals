@@ -1,0 +1,9 @@
+name: spirvect
+author: mixy1
+flag: maltactf{haigotyoutotouchcomputeshaders}
+public: true
+attachments:
+  - spirvect.tar.gz
+description: |-
+  damn a rev challenge that isn't on a cpu architecture??? Crazy... I was crazy once...
+

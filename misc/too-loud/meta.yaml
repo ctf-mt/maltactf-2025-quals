@@ -1,0 +1,7 @@
+name: too loud
+author: outwrest
+flag: maltactf{1_h34r_y0u_h4ve_r1zz}
+public: true
+description: |-
+  Can't handle these tourists blasting Skibidi music 24/7. Whisper me a quiet banger before I go insane!
+instancer: true

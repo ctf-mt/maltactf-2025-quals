@@ -1,0 +1,1 @@
+maltactf{always_read_the_manpages!}

@@ -1,0 +1,13 @@
+name: AdBlocker
+author: DreyAnd
+flag: maltactf{th1s_w4s_4s_exh4ust1V3_aS_th3_C0nnection_P00l}
+public: true
+description: |-
+  Some gnarly company keeps adding ads into my website - even ad blockers can't stop them! Can you help me out?
+
+  [http://ad-blocker.shared.challs.mt:1337/](http://ad-blocker.shared.challs.mt:1337/)
+  [http://ad-blocker.shared.challs.mt:3000/](http://ad-blocker.shared.challs.mt:3000/)
+
+  When testing your solution on remote, make sure to use the following URLs:
+  * http://web:1337
+  * http://analytics:3000

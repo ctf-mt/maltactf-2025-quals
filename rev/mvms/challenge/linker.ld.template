@@ -1,0 +1,86 @@
+ENTRY(main)
+
+PHDRS
+{
+    headers PT_PHDR PHDRS;
+    interp PT_INTERP;
+    text PT_LOAD FILEHDR PHDRS;
+    rodata PT_LOAD;
+    data PT_LOAD;
+    dynamic PT_DYNAMIC;
+}
+
+SECTIONS
+{
+    . = SIZEOF_HEADERS;
+
+    .interp : { *(.interp) } :text :interp
+
+    .hash           : { *(.hash) } :text
+    .gnu.hash       : { *(.gnu.hash) }
+    .dynsym         : { *(.dynsym) }
+    .dynstr         : { *(.dynstr) }
+    .gnu.version    : { *(.gnu.version) }
+    .gnu.version_r  : { *(.gnu.version_r) }
+    .rela.dyn       : { *(.rela.dyn) }
+    .rela.plt       : { *(.rela.plt) }
+
+    .init : { KEEP(*(.init)) } :text
+    .plt : { *(.plt) *(.plt.*) }
+    .text : ALIGN(0x1000)
+    {
+        *(.text.startup)
+        *(.text.hot)
+/* FUNCTIONS */
+        *(.text)
+        *(.text.unlikely)
+        *(.text.exit)
+        *(.text.cold)
+        *(.gnu.linkonce.t.*)
+    } :text
+    .fini : { KEEP(*(.fini)) } :text
+
+    . = ALIGN(0x1000);
+    .rodata :
+    {
+        *(.rodata .rodata.*)
+        *(.gnu.linkonce.r.*)
+    } :rodata
+
+    . = ALIGN(0x1000);
+    .data.rel.ro : { *(.data.rel.ro.local* .gnu.linkonce.d.rel.ro.local.*) *(.data.rel.ro .data.rel.ro.* .gnu.linkonce.d.rel.ro.*) } :data
+    .dynamic        : { *(.dynamic) } :data :dynamic
+    .got            : { *(.got) *(.got.plt) } :data
+
+    .data :
+    {
+        *(.data .data.*)
+        *(.gnu.linkonce.d.*)
+    } :data
+
+    .bss :
+    {
+        *(.bss .bss.*)
+        *(COMMON)
+    } :data
+
+    .init_array : {
+        KEEP (*(SORT_BY_INIT_PRIORITY(.init_array.*)))
+        KEEP (*(.init_array))
+    } :data
+
+    .fini_array : {
+        KEEP (*(SORT_BY_INIT_PRIORITY(.fini_array.*)))
+        KEEP (*(.fini_array))
+    } :data
+
+    .tdata : { *(.tdata .tdata.* .gnu.linkonce.td.*) } :data
+    .tbss : { *(.tbss .tbss.* .gnu.linkonce.tb.*) *(.tcommon) } :data
+
+    /DISCARD/ :
+    {
+        *(.comment)
+        *(.note.GNU-stack)
+        *(.note.gnu.build-id)
+    }
+}

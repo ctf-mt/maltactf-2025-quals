@@ -1,0 +1,94 @@
+# Reference: https://build-cpp.github.io/cmkr/cmake-toml
+[project]
+name = "malta-rev-chall"
+
+[conditions]
+debug = 'CMAKE_BUILD_TYPE STREQUAL "Debug"'
+ndebug = '(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")'
+linux_ndebug = '(NOT CMAKE_BUILD_TYPE STREQUAL "Debug") AND CMAKE_SYSTEM_NAME MATCHES "Linux"'
+ld_shuffler = "LD_SHUFFLER"
+
+[options]
+LD_SHUFFLER = false
+
+[target.chall-base]
+type = "interface"
+compile-features = ["cxx_std_23"]
+compile-definitions = [
+    'OPCODES_PATH="${CMAKE_SOURCE_DIR}/program/opcodes.bin"',
+    'PROGRAM_PATH="${CMAKE_SOURCE_DIR}/program/program.bin"',
+]
+debug.compile-definitions = ["_DEBUG"]
+ndebug.compile-definitions = ["NDEBUG"]
+ndebug.compile-options = ["-O2"]
+link-options = ["-fuse-ld=ld"]
+linux_ndebug.compile-options = [
+    "-msse4.1",
+    "-mno-avx",
+    "-mno-avx2",
+    "-mno-fma",
+    "-fPIC",
+    "-fno-exceptions",
+    "-fno-rtti",
+    "-fno-unwind-tables",
+    "-fno-asynchronous-unwind-tables",
+]
+clang.compile-options = [
+    "-stdlib=libc++",
+    "-Wno-c23-extensions",
+]
+clang.link-libraries = [
+    "c++abi",
+]
+linux.link-libraries = [
+    "c++",
+]
+macos.link-directories = [
+    "/opt/homebrew/opt/llvm/lib/c++",
+]
+
+[target.chall-objects]
+type = "object"
+sources = ["src/**.cpp"]
+include-directories = ["src/"]
+link-libraries = ["chall-base"]
+ndebug.compile-options = ["-ffunction-sections"]
+
+cmake-after = """
+set(SHUFFLE_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/scripts/generate_ld.py)
+set(LINKER_SCRIPT_TEMPLATE ${CMAKE_CURRENT_SOURCE_DIR}/linker.ld.template)
+set(GENERATED_LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/linker.ld)
+
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
+set(PYTHON_EXECUTABLE ${Python3_EXECUTABLE})
+
+if(LD_SHUFFLER)
+    add_custom_command(
+        OUTPUT ${GENERATED_LINKER_SCRIPT}
+        COMMAND ${PYTHON_EXECUTABLE} ${SHUFFLE_SCRIPT}
+                $<TARGET_OBJECTS:chall-objects>
+        DEPENDS chall-objects
+        COMMENT "Generating linker script: ${GENERATED_LINKER_SCRIPT}"
+        VERBATIM
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+
+    add_custom_target(linker-script ALL
+        DEPENDS ${GENERATED_LINKER_SCRIPT}
+    )
+endif()
+"""
+
+[target.chall]
+type = "executable"
+sources = ["src/dummy.cpp"]
+link-libraries = ["chall-objects"]
+cmake-after = """
+if(LD_SHUFFLER)
+    add_dependencies(chall linker-script)
+
+    target_link_options(chall PRIVATE
+        "-Wl,-T,${GENERATED_LINKER_SCRIPT}"
+    )
+endif()
+"""

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdNet - Integration Hub</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h3>AdNet - 3rd Party Integration Successful</h3>
+    <script>
+        const TRUSTED_ORIGINS = [/*TRUSTED_ORIGINS*/];
+
+        function isTrustedOrigin(origin) {
+            return TRUSTED_ORIGINS.includes(origin);
+        }
+
+        window.addEventListener('message', (event) => {
+            if (!isTrustedOrigin(event.origin)) {
+                console.warn('Rejected message from untrusted origin:', event.origin);
+                return;
+            }
+
+            if (!event.data || typeof event.data !== 'object') {
+                console.warn('Invalid message format received');
+                return;
+            }
+
+            if (event.data.analytics && event.data.url) {
+                if (isTrustedOrigin(event.origin)) {
+                    navigator.sendBeacon(event.data.url, JSON.stringify({"analytics-tracking-cookies": document.cookie, "url": event.data.url}));
+                }
+            }
+        });
+
+        if (window.parent) {
+            window.parent.postMessage({
+                payload: 'Integration successful :D'
+            }, '*'); 
+        }
+    </script>
+</body>
+</html> 

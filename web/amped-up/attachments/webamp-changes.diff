@@ -1,0 +1,47 @@
+diff --git a/build/WebampModern.js b/../../../challenge/dist/WebampModern.js
+index 8c7fd87a..c207a0dc 100644
+--- a/build/WebampModern.js
++++ b/../../../challenge/dist/WebampModern.js
+@@ -3071,7 +3071,7 @@ var PathFileExtractor = class {
+ };
+ 
+ // build/maki/objectData/stdPatched.js
+-import std from "./std.json";
++import std from "./maki/objectData/std.json" with { type: "json" };
+ var NAME_TO_DEF = {};
+ Object.values(std).forEach((value) => {
+   NAME_TO_DEF[value.name] = value;
+@@ -3090,11 +3090,11 @@ getMethod("Wac", "onNotify").result = "int";
+ var stdPatched_default = std;
+ 
+ // build/maki/objects.js
+-import pldir from "./objectData/pldir.json";
+-import config2 from "./objectData/config.json";
+-import winampconfig from "./objectData/winampconfig.json";
+-import application from "./objectData/application.json";
+-import fileio from "./objectData/fileio.json";
++import pldir from "./maki/objectData/pldir.json" with { type: "json" };
++import config2 from "./maki/objectData/config.json" with { type: "json" };
++import winampconfig from "./maki/objectData/winampconfig.json" with { type: "json" };
++import application from "./maki/objectData/application.json" with { type: "json" };
++import fileio from "./maki/objectData/fileio.json" with { type: "json" };
+ var objects = {
+   ...stdPatched_default,
+   ...pldir,
+@@ -20749,7 +20749,7 @@ var Webamp5 = class extends WebAmpModern {
+     DIV_UNIQUER++;
+     this._uiRoot = new UIRoot(`ui-root-${DIV_UNIQUER}`);
+     parent.appendChild(this._uiRoot.getRootDiv());
+-    this.switchSkin(this._options.skin);
++    if (this._options.skin) this.switchSkin(this._options.skin);
+     for (const song of this._options.tracks) {
+       this._uiRoot.playlist.enqueuefile(song);
+     }
+@@ -20811,5 +20811,6 @@ async function main() {
+ }
+ main();
+ export {
+-  Webamp5
++  Webamp5,
++  SKIN_ENGINES
+ };
